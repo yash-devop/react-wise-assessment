@@ -2,8 +2,14 @@ import { Cart, OrderSummary, useCart } from "@/features/cart";
 import { ProductList, products } from "@/features/products";
 
 export const ProductListingsPage = () => {
-  const { items, addToCart, removeFromCart, totalQuantity, totalPrice } =
-    useCart();
+  const {
+    items,
+    addToCart,
+    removeFromCart,
+    totalQuantity,
+    totalPrice,
+    clearCart,
+  } = useCart();
 
   return (
     <div className="min-h-screen bg-stone-100 text-stone-900">
@@ -44,19 +50,26 @@ export const ProductListingsPage = () => {
               >
                 Your cart
               </h2>
-              <span className="text-xs text-stone-500">
-                {totalQuantity} {totalQuantity === 1 ? "item" : "items"}
-              </span>
+              <div className="flex items-center gap-x-2">
+                <span className="text-xs text-stone-500">
+                  {totalQuantity} {totalQuantity === 1 ? "item" : "items"}
+                </span>
+                {totalQuantity > 0 && (
+                  <button
+                    onClick={clearCart}
+                    className="text-xs text-amber-700 cursor-pointer underline"
+                  >
+                    Remove all
+                  </button>
+                )}
+              </div>
             </div>
             <div className="overflow-hidden rounded-xl border border-stone-200 bg-white">
               <Cart items={items} onRemove={removeFromCart} />
             </div>
           </section>
 
-          <OrderSummary
-            totalQuantity={totalQuantity}
-            totalPrice={totalPrice}
-          />
+          <OrderSummary totalQuantity={totalQuantity} totalPrice={totalPrice} />
         </aside>
       </main>
     </div>
